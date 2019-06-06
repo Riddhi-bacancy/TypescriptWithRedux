@@ -1,26 +1,42 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { connect } from 'react-redux';
 
-const App: React.FC = () => {
+interface Iprops {
+  age: number,
+  history: number[],
+  handleUp():void,
+  handleDown():void
+
+}
+const App: React.FC<Iprops> = (props) => {
+  const history = props.history.map(h => <li>{h}</li>)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     
+        <div>Age:<span> {props.age}</span></div>
+        <div>
+          <button
+            type="button"
+            onClick={props.handleUp}>Age up</button>
+          <button
+            type="button"
+            onClick={props.handleDown}>Age Down</button>
+        </div>
+        <ul>
+          {history}
+        </ul>
+      
     </div>
   );
 }
+const state :any  = (state : any) => state;
+const dispatch = (dispatch:any) => {
+  return {
+    handleUp: () => dispatch({type:'AGE_UP',payload:10}),
+    handleDown: () => dispatch({type:'AGE_DOWN',payload:10})
+  }
+}
 
-export default App;
+export default connect(state,dispatch)(App);
